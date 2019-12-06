@@ -1,0 +1,23 @@
+{
+  "name": "hackathon_jawwi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "start.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohjb/hackathon_jawwi.git"
+  },
+  "author": "mohamadjb",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mohjb/hackathon_jawwi/issues"
+  },
+  "homepage": "https://github.com/mohjb/hackathon_jawwi#readme",
+  "dependencies": {
+    "angular": "^1.7.9",
+    "express": "^4.17.1"
+  }
+}
