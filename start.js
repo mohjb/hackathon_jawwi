@@ -14,6 +14,7 @@ var options = {
     res.set('x-timestamp', Date.now())
   }
 }
+,counter={icon:0,bg:0}
 
 
 //in options.rBody is the result , options.hostname , options.path
@@ -82,29 +83,30 @@ app.get('/weather/:p', function (req, res) {
 			+req.params.p}
 		,q=> res.json(q.data) 
 	)*/
-	
-	res.json({
+	const icons=['rain','cloud','shower','sunny','sunnySnow','sunnyWindy','thunderRain','thunderSun']
+	,bgs=['rainy','snowy','stormy','sunny','sunnyCloudy']
+	var now=new Date().getTime(),d={
     "latitude": 34.1139,
     "longitude": -118.4068,
     "timezone": "America/Los_Angeles",
     "currently": {
-        "time": 1575687424,
-        "summary": "Light Rain",
-        "icon": "rain",
+        "time": now,
+        "summary": bgs[now%bgs.length],//"Light Rain",
+        "icon": icons[now%icons.length],//"rain",
         "nearestStormDistance": 0,
         "precipIntensity": 0.017,
         "precipIntensityError": 0.002,
         "precipProbability": 1,
         "precipType": "rain",
-        "temperature": 56.12,
-        "apparentTemperature": 56.12,
+        "temperature": (46.12+20*Math.random()).toFixed(2),
+        "apparentTemperature": (46.12+20*Math.random()).toFixed(2),
         "dewPoint": 54.52,
         "humidity": 0.94,
         "pressure": 1021.2,
-        "windSpeed": 3.14,
+        "windSpeed": (0+20*Math.random()).toFixed(2),
         "windGust": 5.45,
-        "windBearing": 203,
-        "cloudCover": 0.75,
+        "windBearing": (360*Math.random()).toFixed(2),
+        "cloudCover":(3*Math.random()).toFixed(2),
         "uvIndex": 0,
         "visibility": 10,
         "ozone": 285.1
@@ -1651,7 +1653,9 @@ app.get('/weather/:p', function (req, res) {
         "units": "us"
     },
     "offset": -8
-})
+};
+
+res.json(d)
 	
 })
 

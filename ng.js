@@ -15538,7 +15538,7 @@ app.controller('maincntrl',['$scope','$http',
 	}
 	p.updtUserCitiesData=function(){
 		p.userCities.forEach(c=>p.getData(c))
-		setTimeout(p.updtUserCitiesData,20*60*1000)
+		setTimeout(p.updtUserCitiesData,6*1000)
 	}
 	p.updtUserCitiesData()
  }])

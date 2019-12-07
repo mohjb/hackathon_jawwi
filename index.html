@@ -16,7 +16,7 @@
 					<nav id="nav">
 						<!--a href="index.html">Home</a>
 						<a href="generic.html">Generic</a-->
-						<a href="#" ng-click="toggleScreen('AllCities')">Locations</a>
+						<button ng-click="toggleScreen('AllCities')">Locations</button>
 					</nav>
 					<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
 				</div>
@@ -28,34 +28,6 @@
 					<header>
 						<h1>Jawwi</h1>
 					</header>
-
-
-<div ng-if="screen=='AllCities'" class="inner">
-	<input 
-		ng-model="searchCitiesStr" 
-		ng-change="onChngCitiesSearch(searchCitiesStr)"/>
-{{filteredAllCities.length<4?filteredAllCities:filteredAllCities.length}} , {{userCities.length}}
-	<div ng-repeat="c in filteredAllCities track by $index"  
-	style="background-color:#6cc091;border-color:white;" 
-			ng-click="clkCity(c)">
-			<span style="border:1px solid gray;"
-			><h3>{{c.city}}</h3> <h2>{{c.country}}</h2> {{c.selected}}</span>
-	</div>
-</div>
-					<div class="flex ">
-						screen={{screen}}
-						<div ng-repeat="city in userCities track by $index">
-							<span class="icon fa-bug"></span>
-							<h3>{{city.city}}</h3>{{city.lat}},{{city.lng}}
-							<p>{{ city.data.currently.time | date:'yyyy-MM-dd HH:mm:ss Z'}}</p>
-							<p>Tempreture:{{city.data.currently.temperature}}</p>
-							<p>Hi and Lo Tempr</p>
-							<p>Icon WeatherCondition:{{city.data.currently.icon}}</p>
-						</div>
-					</div>
-					<footer>
-						<a href="#" class="button">Get Started</a>
-					</footer>
 				</div>
 			</section>
 
@@ -64,7 +36,7 @@
 			<section id="three" class="wrapper align-center">
 				<div class="inner">
 					<div class="flex flex-2">
-						<article>
+						<!--article>
 							<div class="image round">
 								<img src="images/pic01.jpg" alt="Pic 01" />
 							</div>
@@ -75,18 +47,37 @@
 							<footer>
 								<a href="#" class="button">Learn More</a>
 							</footer>
-						</article>
-						<article>
+						</article-->
+						<article ng-if="screen=='AllCities'" >
 							<div class="image round">
-								<img src="images/pic02.jpg" alt="Pic 02" />
+	City Filter:<input 
+{{ filteredAllCities.length}} , {{userCities.length}}
+		ng-model="searchCitiesStr" 
+		ng-change="onChngCitiesSearch(searchCitiesStr)"/>
 							</div>
-							<header>
-								<h3>Sed feugiat<br /> tempus adipicsing</h3>
+							<header
+	 ng-repeat="c in filteredAllCities track by $index"  
+				style="background-color:#6cc09187;border-color:white;
+					box-shadow: inset 0 0 0 3px #6cc091;
+				color: #6cc091 !important;
+				border-radius: 30px;
+				border: 0;
+				cursor: pointer;
+				display: inline-block;
+				font-size: .75em;
+				font-weight: 400;
+				height: 7.75em;
+				line-height: 3.85em;
+				letter-spacing: 2px;
+				padding: 0 4em;
+				text-align: center;
+				text-decoration: none;
+				text-transform: uppercase;
+				white-space: nowrap;
+				" 
+			ng-click="clkCity(c)">
+			<h3><span ng-if="c.selected">&#x2714; </span>{{c.city}}</h3> <h2>{{c.country}}</h2>
 							</header>
-							<p>Pellentesque fermentum dolor. Aliquam quam lectus<br />facilisis auctor, ultrices ut, elementum vulputate, nunc<br /> blandit ellenste egestagus commodo.</p>
-							<footer>
-								<a href="#" class="button">Learn More</a>
-							</footer>
 						</article>
 					</div>
 				</div>
@@ -96,7 +87,7 @@
 			<footer id="footer">
 				<div class="inner">
 
-					<h3>Get in touch</h3>
+					<!--h3>Get in touch</h3>
 
 					<form action="#" method="post">
 
@@ -119,7 +110,18 @@
 
 					<div class="copyright">
 						&copy; Untitled. Design: <a href="https://templated.co">TEMPLATED</a>. Images: <a href="https://unsplash.com">Unsplash</a>.
-					</div>
+					</div-->
+
+						<div ng-repeat="city in userCities track by $index"
+							style="margin:5px;
+								border: 5px solid white;
+								border-radius: 20px;"
+						>	<h3>{{city.city}}</h3><!-- ,{{city.lat}},{{city.lng}}-->
+							<p>{{ city.data.currently.time | date:'yyyy-MM-dd HH:mm:ss Z'}}</p>
+							<fieldset><legend>Tempreture:</legend>{{city.data.currently.temperature}}</fieldset>
+							<fieldset><legend>Hi and Lo Tempr</legend>ok</fieldset>
+							<p><img src="/images/icons/{{city.data.currently.icon}}.png"/></p>
+						</div>
 
 				</div>
 			</footer>
