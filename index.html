@@ -1,27 +1,22 @@
 <!DOCTYPE HTML>
-<!--
-	Projection by TEMPLATED
-	templated.co @templatedco
-	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
--->
-<html>
+<html ng-app="ngApp">
 	<head>
 		<title>Projection by TEMPLATED</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<script src="node_modules/angular/angular.js"></script>
+		<script src="ng.js"></script>
 	</head>
-	<body>
-
+	<body ng-controller="maincntrl">
 		<!-- Header -->
 			<header id="header">
 				<div class="inner">
-					<a href="index.html" class="logo"><strong>Projection</strong> by TEMPLATED</a>
+					<!--a href="index.html" class="logo"><strong>Projection</strong> by TEMPLATED</a-->
 					<nav id="nav">
-						<a href="index.html">Home</a>
-						<a href="generic.html">Generic</a>
-						<a href="elements.html">Elements</a>
+						<!--a href="index.html">Home</a>
+						<a href="generic.html">Generic</a-->
+						<a href="#" ng-click="toggleScreen('AllCities')">Locations</a>
 					</nav>
 					<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
 				</div>
@@ -31,31 +26,33 @@
 			<section id="banner">
 				<div class="inner">
 					<header>
-						<h1>Welcome to Projection</h1>
+						<h1>Jawwi</h1>
 					</header>
 
+
+<div ng-if="screen=='AllCities'" class="inner">
+	<input 
+		ng-model="searchCitiesStr" 
+		ng-change="onChngCitiesSearch(searchCitiesStr)"/>
+{{filteredAllCities.length<4?filteredAllCities:filteredAllCities.length}} , {{userCities.length}}
+	<div ng-repeat="c in filteredAllCities track by $index"  
+	style="background-color:#6cc091;border-color:white;" 
+			ng-click="clkCity(c)">
+			<span style="border:1px solid gray;"
+			><h3>{{c.city}}</h3> <h2>{{c.country}}</h2> {{c.selected}}</span>
+	</div>
+</div>
 					<div class="flex ">
-
-						<div>
-							<span class="icon fa-car"></span>
-							<h3>Aliquam</h3>
-							<p>Suspendisse amet ullamco</p>
-						</div>
-
-						<div>
-							<span class="icon fa-camera"></span>
-							<h3>Elementum</h3>
-							<p>Class aptent taciti ad litora</p>
-						</div>
-
-						<div>
+						screen={{screen}}
+						<div ng-repeat="city in userCities track by $index">
 							<span class="icon fa-bug"></span>
-							<h3>Ultrices</h3>
-							<p>Nulla vitae mauris non felis</p>
+							<h3>{{city.city}}</h3>{{city.lat}},{{city.lng}}
+							<p>{{ city.data.currently.time | date:'yyyy-MM-dd HH:mm:ss Z'}}</p>
+							<p>Tempreture:{{city.data.currently.temperature}}</p>
+							<p>Hi and Lo Tempr</p>
+							<p>Icon WeatherCondition:{{city.data.currently.icon}}</p>
 						</div>
-
 					</div>
-
 					<footer>
 						<a href="#" class="button">Get Started</a>
 					</footer>
@@ -132,6 +129,5 @@
 			<script src="assets/js/skel.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
-
-	</body>
+	</body> <!--h2><span ng-if="c.selected">&#x2714; </span> { {c.city}} , { {c.country}}</h2-->
 </html>
