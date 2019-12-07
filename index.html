@@ -14,29 +14,21 @@
 				<div class="inner">
 					<!--a href="index.html" class="logo"><strong>Projection</strong> by TEMPLATED</a-->
 					<nav id="nav">
-						<button ng-click="screen='hourly'"><span ng-if="screen=='hourly'">&#x2714; </span>2 Hours</a>
-						<button ng-click="screen='daily'" ><span ng-if="screen=='daily'">&#x2714; </span>Day of Week</a>
+						<h1>Jawwi</h1>
 						<button ng-click="toggleScreen('AllCities')"><span ng-if="screen=='AllCities'">&#x2714; </span>Locations</button>
 					</nav>
-					<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
+					<!--a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a-->
 				</div>
 			</header>
 
-		<!-- Banner -->
-			<section id="banner">
-				<div class="inner">
-					<header>
-						<h1>Jawwi</h1>
-					</header>
-				</div>
-			</section>
 
 
 		<!-- Three -->
-			<section id="three" class="wrapper align-center">
+			<section id="three"  ng-if="screen=='AllCities'"
+				class="wrapper align-center">
 				<div class="inner">
 					<div class="flex flex-2">
-						<article ng-if="screen=='AllCities'" >
+						<article >
 							<div class="image round">
 	City Filter:<input 
 {{ filteredAllCities.length}} , {{userCities.length}}
@@ -64,8 +56,16 @@
 				white-space: nowrap;
 				" 
 			ng-click="clkCity(c)">
-			<h3><span ng-if="c.selected">&#x2714; </span>{{c.city}}</h3> <h2>{{c.country}}</h2>
-							</header>
+			
+			<table><tr><td style="width:80%">
+					<h3><span ng-if="c.selected">&#x2714; </span>{{c.city}} ,{{c.country}}</h3>
+					{{ c.data.currently.time | date:'yyyy-MM-dd HH:mm:ss'}}
+				</td><td>
+					<fieldset ng-init="data=prepareData(city.data,city)[0]"><legend>Hi and Lo Tempr</legend>{{data[0].a.lo}} / {{data[0].a.hi}}</fieldset>
+					<fieldset><legend>Expected Rain:</legend>{{c.data.currently.precipProbability*100}}%</fieldset>
+				<img style="width:64px;height:64px" src="/images/icons/{{c.data.currently.icon}}.png"/>
+				</td></tr></table>	
+				</header>
 						</article>
 					</div>
 				</div>
@@ -84,13 +84,14 @@
 						<p>{{ city.data.currently.time | date:'yyyy-MM-dd HH:mm:ss Z'}}</p>
 						<fieldset><legend>Tempreture:</legend>{{city.data.currently.temperature}}</fieldset>
 						<fieldset><legend>Expected Rain:</legend>{{city.data.currently.precipProbability*100}}%</fieldset>
-						<fieldset ng-init="data=prepareData(city.data)"><legend>Hi and Lo Tempr</legend>{{data[0].a.lo}} to {{data[0].a.hi}}</fieldset>
+						<fieldset ng-init="data=prepareData(city.data,city)[0]">
+							<legend>Hi and Lo Tempreture</legend>{{data[0].a.lo}} to {{data[0].a.hi}}</fieldset>
 						<p><img src="/images/icons/{{city.data.currently.icon}}.png"/></p>
-						<table ng-if="screen=='hourly'" id="{{city.id}}_dataviz">
+						<table id="{{city.id}}_dataviz">
 							<tr><td ng-repeat="h in data track by $index">{{h.time | date:'HH:mm'}}</td></tr>
 							<tr><td ng-repeat="h in data track by $index">{{h.temperature}}</td></tr>
 						</table>
-						<table ng-if="screen=='daily'" id="{{city.id}}_dataviz">
+						<table id="{{city.id}}_dataviz">
 							<tr><td ng-repeat="h in data track by $index">{{h.time | date:'dd HH:mm'}}</td></tr>
 							<tr><td ng-repeat="h in data track by $index">{{h.temperature}}</td></tr>
 						</table>

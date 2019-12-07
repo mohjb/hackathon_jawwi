@@ -15520,6 +15520,7 @@ app.controller('maincntrl',['$scope','$http',
 		p.allCities.forEach(o=>{
 			if(o.city && o.city.toLowerCase().indexOf(x)!=-1)
 				p.filteredAllCities.push(o)
+				if(!o.data)p.getData(o)
 		})
 	}
 	p.clkCity=function(city){if(!city)return;
@@ -15530,11 +15531,16 @@ app.controller('maincntrl',['$scope','$http',
 		if(city.selected && !city.data)
 			p.getData(city)
 		localStorage.jawwi_userCities=JSON.stringify(p.userCities)
+		p.screen='main'
 		}
 	p.toggleScreen=function(scr){p.screen=p.screen==scr?'main':scr;}
 	p.getData=function(city){
 		$http.get('/weather/'+city.lat+','+city.lng)
-	.then(q=>{city.data=q.data;localStorage.jawwi_userCities=JSON.stringify(p.userCities)})
+		.then(q=>{city.data=q.data;
+			localStorage.jawwi_userCities=JSON.stringify(p.userCities)
+			p.prepareData(city.data);}
+		)
+		return city
 	}
 	p.updtUserCitiesData=function(){
 		p.userCities.forEach(c=>p.getData(c))
@@ -15561,7 +15567,18 @@ app.controller('maincntrl',['$scope','$http',
 			}
 			}
 		return a;}
-	p.prepareData=function(data){return p.screen=='daily'?p.prepareDataDaily(data.daily.data):p.prepareData2hr(data.hourly.data);}
+	p.prepareData=function(data,city){
+		if(city&&city.data&&city.data.preparedData)
+			return [city.data.preparedData.daily
+				,city.data.preparedData.hourly];
+		var d=[p.prepareDataDaily(data.daily.data)
+			,p.prepareData2hr(data.hourly.data)];
+		if(city){
+			//if(!city.data)city.data={};
+			city.data.preparedData={
+				daily:d[0],hourly:d[1]};
+		}
+		return d;}
 	p.prepareData2hr=function(data){
 		var d={d:data[0].time,temperature:data[0].temperature
 			,hi:data[0].temperature,lo:data[0].temperature,a:
