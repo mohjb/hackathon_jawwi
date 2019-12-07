@@ -115,7 +115,9 @@
 						<div ng-repeat="city in userCities track by $index"
 							style="margin:5px;
 								border: 5px solid white;
-								border-radius: 20px;"
+								border-radius: 20px;
+								background-size: cover;
+								background-image:url(/images/bg/{{city.data.currently.summary}}.jpg)"
 						>	<h3>{{city.city}}</h3><!-- ,{{city.lat}},{{city.lng}}-->
 							<p>{{ city.data.currently.time | date:'yyyy-MM-dd HH:mm:ss Z'}}</p>
 							<fieldset><legend>Tempreture:</legend>{{city.data.currently.temperature}}</fieldset>
