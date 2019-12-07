@@ -15540,5 +15540,52 @@ app.controller('maincntrl',['$scope','$http',
 		p.userCities.forEach(c=>p.getData(c))
 		setTimeout(p.updtUserCitiesData,6*1000)
 	}
+	p.prepareDataDaily=function(data){
+		var d={d:new Date(data[0].time),temperature:(data[0].
+			tempratureHigh+data[0].tempratureLow)/2
+			,hi:data[0].tempratureHigh,lo:data[0].tempratureLow}
+			,a=[d]
+		for(var i=0;i<data.length;i++){
+			var x=data[i],xd=new Date(x.time);
+			if(xd.getDate()!=d.d.getDate()){
+				a.push(d={d:xd,temperature:(x.tempratureHigh+x.tempratureLow)/2
+				,hi:x.tempratureHigh,lo:x.tempratureLow})
+			}
+			else{
+				d.temperature=(d.temperature+
+				(x.tempratureHigh+x.tempratureLow)/2)/2
+				if(x.tempratureHigh>d.tempratureHigh)
+					d.tempratureHigh=x.tempratureHigh
+				if(d.tempratureLow>x.tempratureLow)
+					d.tempratureLow=x.tempratureLow
+			}
+			}
+		return a;}
+	p.prepareData=function(data){return p.screen=='daily'?p.prepareDataDaily(data.daily.data):p.prepareData2hr(data.hourly.data);}
+	p.prepareData2hr=function(data){
+		var d={d:data[0].time,temperature:data[0].temperature
+			,hi:data[0].temperature,lo:data[0].temperature,a:
+			{hi:data[0].temperature,lo:data[0].temperature}}
+			,a=[d],h2=2*60*60*1000
+		for(var i=0;i<data.length;i++){
+			var x=data[i],xt=x.temperature;
+			if(Math.abs(x.time-d.d)>=h2){
+				a.push(d={d:x.time,temperature:xt,hi:xt,lo:xt})
+				if(a[0].a.hi<xt)
+					a[0].a.hi=xt
+				if(a[0].a.lo>xt)
+					a[0].a.lo=xt
+			}else{
+				d.temperature=(d.temperature+xt)/2
+				if(d.hi<xt)
+					d.hi=xt
+				if(d.lo>xt)
+					d.lo=xt
+				if(a[0].a.hi<xt)
+					a[0].a.hi=xt
+				if(a[0].a.lo>xt)
+					a[0].a.lo=xt
+		}}
+		return a;}
 	p.updtUserCitiesData()
  }])

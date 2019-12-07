@@ -14,9 +14,9 @@
 				<div class="inner">
 					<!--a href="index.html" class="logo"><strong>Projection</strong> by TEMPLATED</a-->
 					<nav id="nav">
-						<!--a href="index.html">Home</a>
-						<a href="generic.html">Generic</a-->
-						<button ng-click="toggleScreen('AllCities')">Locations</button>
+						<button ng-click="screen='hourly'"><span ng-if="screen=='hourly'">&#x2714; </span>2 Hours</a>
+						<button ng-click="screen='daily'" ><span ng-if="screen=='daily'">&#x2714; </span>Day of Week</a>
+						<button ng-click="toggleScreen('AllCities')"><span ng-if="screen=='AllCities'">&#x2714; </span>Locations</button>
 					</nav>
 					<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
 				</div>
@@ -36,18 +36,6 @@
 			<section id="three" class="wrapper align-center">
 				<div class="inner">
 					<div class="flex flex-2">
-						<!--article>
-							<div class="image round">
-								<img src="images/pic01.jpg" alt="Pic 01" />
-							</div>
-							<header>
-								<h3>Lorem ipsum<br /> dolor amet nullam</h3>
-							</header>
-							<p>Morbi in sem quis dui placerat ornare. Pellentesquenisi<br />euismod in, pharetra a, ultricies in diam sed arcu. Cras<br />consequat  egestas augue vulputate.</p>
-							<footer>
-								<a href="#" class="button">Learn More</a>
-							</footer>
-						</article-->
 						<article ng-if="screen=='AllCities'" >
 							<div class="image round">
 	City Filter:<input 
@@ -86,45 +74,27 @@
 		<!-- Footer -->
 			<footer id="footer">
 				<div class="inner">
-
-					<!--h3>Get in touch</h3>
-
-					<form action="#" method="post">
-
-						<div class="field half first">
-							<label for="name">Name</label>
-							<input name="name" id="name" type="text" placeholder="Name">
-						</div>
-						<div class="field half">
-							<label for="email">Email</label>
-							<input name="email" id="email" type="email" placeholder="Email">
-						</div>
-						<div class="field">
-							<label for="message">Message</label>
-							<textarea name="message" id="message" rows="6" placeholder="Message"></textarea>
-						</div>
-						<ul class="actions">
-							<li><input value="Send Message" class="button alt" type="submit"></li>
-						</ul>
-					</form>
-
-					<div class="copyright">
-						&copy; Untitled. Design: <a href="https://templated.co">TEMPLATED</a>. Images: <a href="https://unsplash.com">Unsplash</a>.
-					</div-->
-
-						<div ng-repeat="city in userCities track by $index"
-							style="margin:5px;
-								border: 5px solid white;
-								border-radius: 20px;
-								background-size: cover;
-								background-image:url(/images/bg/{{city.data.currently.summary}}.jpg)"
-						>	<h3>{{city.city}}</h3><!-- ,{{city.lat}},{{city.lng}}-->
-							<p>{{ city.data.currently.time | date:'yyyy-MM-dd HH:mm:ss Z'}}</p>
-							<fieldset><legend>Tempreture:</legend>{{city.data.currently.temperature}}</fieldset>
-							<fieldset><legend>Hi and Lo Tempr</legend>ok</fieldset>
-							<p><img src="/images/icons/{{city.data.currently.icon}}.png"/></p>
-						</div>
-
+					<div ng-repeat="city in userCities track by $index"
+						style="margin:5px;
+							border: 5px solid white;
+							border-radius: 20px;
+							background-size: cover;
+							background-image:url(/images/bg/{{city.data.currently.summary}}.jpg)"
+					>	<h3>{{city.city}}</h3><!-- ,{{city.lat}},{{city.lng}}-->
+						<p>{{ city.data.currently.time | date:'yyyy-MM-dd HH:mm:ss Z'}}</p>
+						<fieldset><legend>Tempreture:</legend>{{city.data.currently.temperature}}</fieldset>
+						<fieldset><legend>Expected Rain:</legend>{{city.data.currently.precipProbability*100}}%</fieldset>
+						<fieldset ng-init="data=prepareData(city.data)"><legend>Hi and Lo Tempr</legend>{{data[0].a.lo}} to {{data[0].a.hi}}</fieldset>
+						<p><img src="/images/icons/{{city.data.currently.icon}}.png"/></p>
+						<table ng-if="screen=='hourly'" id="{{city.id}}_dataviz">
+							<tr><td ng-repeat="h in data track by $index">{{h.time | date:'HH:mm'}}</td></tr>
+							<tr><td ng-repeat="h in data track by $index">{{h.temperature}}</td></tr>
+						</table>
+						<table ng-if="screen=='daily'" id="{{city.id}}_dataviz">
+							<tr><td ng-repeat="h in data track by $index">{{h.time | date:'dd HH:mm'}}</td></tr>
+							<tr><td ng-repeat="h in data track by $index">{{h.temperature}}</td></tr>
+						</table>
+					</div>
 				</div>
 			</footer>
 
