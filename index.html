@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html ng-app="ngApp">
 	<head>
-		<title>Projection by TEMPLATED</title>
+		<title>JawwI</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -10,17 +10,18 @@
 	</head>
 	<body ng-controller="maincntrl">
 		<!-- Header -->
-			<header id="header">
+			<header id="header"  style="color:black">
 				<div class="inner">
-					<!--a href="index.html" class="logo"><strong>Projection</strong> by TEMPLATED</a-->
+					<!--a href="index.html" class="logo"Jawwi</a-->
 					<nav id="nav">
 						<h1>Jawwi</h1>
-						<button ng-click="toggleScreen('AllCities')"><span ng-if="screen=='AllCities'">&#x2714; </span>Locations</button>
+						
 					</nav>
-					<!--a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a-->
 				</div>
 			</header>
-
+<button ng-click="toggleScreen('AllCities')" 
+							style="color:black"
+							><span ng-if="screen=='AllCities'">&#x2714; </span>Locations</button>
 
 
 		<!-- Three -->
@@ -30,10 +31,9 @@
 					<div class="flex flex-2">
 						<article >
 							<div class="image round">
-	City Filter:<input 
-{{ filteredAllCities.length}} , {{userCities.length}}
+	City Filter:<input title="{{ filteredAllCities.length}} , {{userCities.length}}"
 		ng-model="searchCitiesStr" 
-		ng-change="onChngCitiesSearch(searchCitiesStr)"/>
+		ng-change="onChngCitiesSearch(searchCitiesStr)"/> #Matches:{{searchMatches}}
 							</div>
 							<header
 	 ng-repeat="c in filteredAllCities track by $index"  
@@ -56,15 +56,7 @@
 				white-space: nowrap;
 				" 
 			ng-click="clkCity(c)">
-			
-			<table><tr><td style="width:80%">
 					<h3><span ng-if="c.selected">&#x2714; </span>{{c.city}} ,{{c.country}}</h3>
-					{{ c.data.currently.time | date:'yyyy-MM-dd HH:mm:ss'}}
-				</td><td>
-					<fieldset ng-init="data=prepareData(city.data,city)[0]"><legend>Hi and Lo Tempr</legend>{{data[0].a.lo}} / {{data[0].a.hi}}</fieldset>
-					<fieldset><legend>Expected Rain:</legend>{{c.data.currently.precipProbability*100}}%</fieldset>
-				<img style="width:64px;height:64px" src="/images/icons/{{c.data.currently.icon}}.png"/>
-				</td></tr></table>	
 				</header>
 						</article>
 					</div>

@@ -15514,14 +15514,15 @@ app.controller('maincntrl',['$scope','$http',
 	p.screen='main';
 	p.filteredAllCities=[];p.searchCitiesStr=''
 	p.onChngCitiesSearch=function(x){
-		p.filteredAllCities=!x||x.length==0?p.allCities.slice():[];
-		x=x.toLowerCase()
+		p.filteredAllCities=[] //!x||x.length==0?p.allCities.slice():[];
+		x=x.toLowerCase();p.searchMatches=0;
 		if(x && x.length>1)
 		p.allCities.forEach(o=>{
 			if(o.city && o.city.toLowerCase().indexOf(x)!=-1)
-				p.filteredAllCities.push(o)
-				if(!o.data)p.getData(o)
-		})
+			{	if( p.filteredAllCities.length<75)p.filteredAllCities.push(o)
+				p.searchMatches++
+				//if(!o.data)p.getData(o)
+		}})
 	}
 	p.clkCity=function(city){if(!city)return;
 		city.selected=!city.selected;
@@ -15538,7 +15539,7 @@ app.controller('maincntrl',['$scope','$http',
 		$http.get('/weather/'+city.lat+','+city.lng)
 		.then(q=>{city.data=q.data;
 			localStorage.jawwi_userCities=JSON.stringify(p.userCities)
-			p.prepareData(city.data);}
+			p.prepareData(city.data,city);}
 		)
 		return city
 	}
