@@ -18,6 +18,6 @@
   "homepage": "https://github.com/mohjb/hackathon_jawwi#readme",
   "dependencies": {
     "angular": "^1.7.9",
-    "express": "^4.17.1"
+    "express": "^4.18.2"
   }
 }
